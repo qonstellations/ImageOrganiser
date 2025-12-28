@@ -1,9 +1,10 @@
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
 from datetime import datetime
+from pathlib import Path
 
-def get_datetime(imgpath : str) -> datetime:
-    image = Image.open(imgpath)
+def get_datetime(imgpath : Path) -> datetime:
+    image = Image.open(str(imgpath))
     exifdata = image.getexif()
 
     # DateTime TagID = 306
@@ -16,8 +17,8 @@ def get_datetime(imgpath : str) -> datetime:
 
     return datetime_obj
 
-def get_gps(imgpath : str) -> tuple:
-    image = Image.open(imgpath)
+def get_gps(imgpath : Path) -> tuple:
+    image = Image.open(str(imgpath))
     exifdata = image.getexif()
     
     # GPSInfo TagID = 34853

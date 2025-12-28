@@ -8,7 +8,12 @@ TO DO
 from app import metadata
 
 def main():
-    metadata.get_datetime("images/img1.jpg")
+    timedate = metadata.get_datetime("images/img1.jpg")
+    print(timedate.date())
+    print(timedate.time())
+
+    gps = metadata.get_gps("images/img1.jpg")
+    print(gps)
 
 if __name__ == "__main__":
     main()

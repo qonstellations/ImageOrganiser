@@ -11,3 +11,6 @@ wheels/
 
 # MacOS Filesystem Extras
 .DS_Store
+
+# Images folder
+images/

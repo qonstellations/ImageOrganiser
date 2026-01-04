@@ -2,7 +2,9 @@ from pathlib import Path
 from PIL import Image
 from PIL.ExifTags import GPSTAGS
 from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
 from shutil import copy2
+
 from sorter import IMAGE_EXTS
 
 def dms_to_decimal(dms, ref):

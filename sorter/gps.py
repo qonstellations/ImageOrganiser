@@ -3,8 +3,7 @@ from PIL import Image
 from PIL.ExifTags import GPSTAGS
 from geopy.geocoders import Nominatim
 from shutil import copy2
-
-IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp"}
+from sorter import IMAGE_EXTS
 
 def dms_to_decimal(dms, ref):
     degrees, minutes, seconds = dms
@@ -57,7 +56,7 @@ def gps_sort(input_dir: Path, output_dir: Path | None = None):
         }
 
         if not required.issubset(gps_readable):
-            target = output_dir / "no_gps"
+            target = output_dir / "Ungrouped"
             target.mkdir(parents=True, exist_ok=True)
             copy2(file, target / file.name)
             continue
@@ -71,7 +70,15 @@ def gps_sort(input_dir: Path, output_dir: Path | None = None):
             gps_readable["GPSLongitudeRef"],
         )
 
-        location = geolocator.reverse((lat, lon), zoom=10)
+        try:
+            location = geolocator.reverse(
+                (lat, lon),
+                zoom=10,
+                timeout=10
+            )
+        except (GeocoderTimedOut, GeocoderUnavailable):
+            location = None
+        
         if not location:
             target = output_dir / "Unknown_Location"
             target.mkdir(parents=True, exist_ok=True)
